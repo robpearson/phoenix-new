@@ -34,7 +34,7 @@ step "update-rds-database" {
 }
 
 step "deploy-website" {
-    name = "Deploy website"
+    name = "Deploy Website to ECS"
     package_requirement = "AfterPackageAcquisition"
     properties = {
         Octopus.Action.TargetRoles = "web"
