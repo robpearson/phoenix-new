@@ -1,0 +1,115 @@
+step "approve-prod-deployment" {
+    name = "Approve PROD deployment "
+
+    action {
+        action_type = "Octopus.Manual"
+        environments = ["prod"]
+        properties = {
+            Octopus.Action.Manual.BlockConcurrentDeployments = "False"
+            Octopus.Action.Manual.Instructions = "Approve Prod Deployment ... "
+            Octopus.Action.Manual.ResponsibleTeamIds = "global/octopus-administrators"
+        }
+        worker_pool_variable = ""
+    }
+}
+
+step "run-database-migrations" {
+    name = "Run database migrations"
+
+    action {
+        action_type = "Octopus.AzurePowerShell"
+        properties = {
+            Octopus.Action.Azure.AccountId = "azure-sandbox"
+            Octopus.Action.Script.ScriptBody = "adsf"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool_variable = ""
+    }
+}
+
+step "deploy-to-iis" {
+    name = "Deploy to Tomcat"
+    properties = {
+        Octopus.Action.TargetRoles = "web"
+    }
+
+    action "remove-from-load-balancer" {
+        action_type = "Octopus.AwsRunScript"
+        name = "Remove from load balancer"
+        properties = {
+            Octopus.Action.Aws.AssumeRole = "False"
+            Octopus.Action.Aws.Region = "asdf"
+            Octopus.Action.AwsAccount.UseInstanceRole = "False"
+            Octopus.Action.AwsAccount.Variable = "AWS account"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "adsf"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+
+    action "deploy-to-tomcat-via-manager" {
+        action_type = "Octopus.TomcatDeploy"
+        name = "Deploy to Tomcat via Manager"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.TomcatDeployManager"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "adsf"
+            Tomcat.Deploy.Controller = "http://localhost:8080/manager"
+            Tomcat.Deploy.Enabled = "True"
+            Tomcat.Deploy.Password = "#{tomcat.password}"
+            Tomcat.Deploy.User = "#{tomcat.user}"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "adsf"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+
+    action "run-an-aws-cli-script" {
+        action_type = "Octopus.AwsRunScript"
+        name = "Add server to load balancer"
+        properties = {
+            Octopus.Action.Aws.AssumeRole = "False"
+            Octopus.Action.Aws.Region = "asdfadsf"
+            Octopus.Action.AwsAccount.UseInstanceRole = "False"
+            Octopus.Action.AwsAccount.Variable = "AWS account"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "adsf"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "notify-team" {
+    name = "Notify team"
+
+    action {
+        excluded_environments = ["dev"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-41"
+            Octopus.Action.Template.Version = "1"
+            ssn_Channel = "adsf"
+            ssn_Color = "good"
+            ssn_HookUrl = "adsf"
+            ssn_IconUrl = "https://octopus.com/content/resources/favicon.png"
+            ssn_Username = "Octopus Deploy"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
