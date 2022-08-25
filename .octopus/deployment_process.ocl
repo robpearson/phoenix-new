@@ -113,3 +113,23 @@ step "notify-team" {
         worker_pool = "hosted-ubuntu"
     }
 }
+
+step "update-rds-database" {
+    name = "Update RDS Database"
+
+    action {
+        action_type = "Octopus.AwsRunScript"
+        properties = {
+            Octopus.Action.Aws.AssumeRole = "False"
+            Octopus.Action.Aws.Region = "adsfa"
+            Octopus.Action.AwsAccount.UseInstanceRole = "False"
+            Octopus.Action.AwsAccount.Variable = "AWS account"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "adsf"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
