@@ -1,5 +1,5 @@
 step "approve-prod-deployment" {
-    name = "Approve PROD deployment "
+    name = "Approve Production deployment "
 
     action {
         action_type = "Octopus.Manual"
