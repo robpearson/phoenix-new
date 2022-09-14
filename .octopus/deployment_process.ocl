@@ -1,81 +1,146 @@
-step "approve-production-only" {
-    name = "Approve (Production only)"
+step "approve-prod-deployment" {
+    name = "Approve Production deployment "
 
     action {
         action_type = "Octopus.Manual"
+        environments = ["prod"]
         properties = {
             Octopus.Action.Manual.BlockConcurrentDeployments = "False"
-            Octopus.Action.Manual.Instructions = "adsf"
-            Octopus.Action.Manual.ResponsibleTeamIds = "global/octopus-managers"
+            Octopus.Action.Manual.Instructions = "Approve Prod Deployment ... "
+            Octopus.Action.Manual.ResponsibleTeamIds = "global/octopus-administrators"
         }
         worker_pool_variable = ""
     }
 }
 
-step "update-database" {
-    name = "Update database"
+step "update-rds-database" {
+    name = "Update RDS Database"
 
     action {
         action_type = "Octopus.AwsRunScript"
         properties = {
             Octopus.Action.Aws.AssumeRole = "False"
-            Octopus.Action.Aws.Region = "asdf"
+            Octopus.Action.Aws.Region = "adsfa"
             Octopus.Action.AwsAccount.UseInstanceRole = "False"
-            Octopus.Action.AwsAccount.Variable = "#{AWS Account}"
-            Octopus.Action.Script.ScriptBody = "asdfasdf"
+            Octopus.Action.AwsAccount.Variable = "AWS account"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "adsf"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
             OctopusUseBundledTooling = "False"
         }
-        worker_pool_variable = ""
+        worker_pool = "hosted-ubuntu"
     }
 }
 
-step "create-an-amazon-s3-bucket" {
-    name = "Update static assets"
+step "deploy-website" {
+    name = "Deploy Website to ECS"
     package_requirement = "AfterPackageAcquisition"
-
-    action {
-        action_type = "aws-s3-create-bucket"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-        }
-        step_package_version = "1.0.2"
-        worker_pool_variable = ""
-
-        inputs {
-            awsAccount = "amazonwebservicesaccount-dummy-account-spaces-1"
-            bucketName = "asdf"
-            region = "asdf"
-        }
-    }
-}
-
-step "deploy-a-package" {
-    name = "Deploy webapp"
     properties = {
         Octopus.Action.TargetRoles = "web"
     }
 
     action {
-        action_type = "Octopus.TentaclePackage"
+        action_type = "aws-ecs"
         properties = {
-            Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
-            Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
-            Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
-            Octopus.Action.Package.DownloadOnTentacle = "False"
-            Octopus.Action.Package.FeedId = "octopus-server-built-in"
-            Octopus.Action.Package.PackageId = "Phoenix"
+            Octopus.Action.RunOnServer = "true"
         }
-        worker_pool_variable = ""
+        step_package_version = "1.3.1"
+        worker_pool = "hosted-ubuntu"
 
-        packages {
-            acquisition_location = "Server"
-            feed = "octopus-server-built-in"
-            package_id = "Phoenix"
-            properties = {
-                SelectionMode = "immediate"
+        packages "phoenix" {
+            acquisition_location = "NotAcquired"
+            feed = "dockerhub"
+            package_id = "machines/phoenix"
+            step_package_inputs_reference_id = "e86e3359-a583-428d-bd24-d89f5c932a11"
+        }
+
+        inputs {
+            desiredCount = 1
+            maximumHealthPercent = 200
+            minimumHealthPercent = 100
+            name = "dasf"
+
+            additionalTags {
+                enableEcsManagedTags = false
+            }
+
+            containers {
+                containerName = "Phoenix-web"
+                essential = true
+
+                containerImageReference {
+                    feedId = "Feeds-1001"
+                    imageName = "machines/phoenix"
+                    referenceId = "e86e3359-a583-428d-bd24-d89f5c932a11"
+                }
+
+                containerLogging {
+                    type = "auto"
+                }
+
+                containerStorage {
+                    readOnlyRootFileSystem = false
+                }
+
+                healthCheck {}
+
+                networkSettings {
+                    disableNetworking = false
+                }
+
+                repositoryAuthentication {
+                    type = "default"
+                }
+            }
+
+            networkConfiguration {
+                autoAssignPublicIp = true
+
+                securityGroupIds {
+                    id = "adsf"
+                }
+
+                subnetIds {
+                    id = "adsf"
+                }
+            }
+
+            task {
+                cpu = 256
+                memory = 512
+                taskExecutionRole = "adsf"
+                taskRole = "asdf"
+
+                runtimePlatform {
+                    cpuArchitecture = "X86_64"
+                    operatingSystemFamily = "LINUX"
+                }
+            }
+
+            waitOption {
+                timeout = 30
+                type = "waitWithTimeout"
             }
         }
+    }
+}
+
+step "notify-team" {
+    name = "Notify team"
+
+    action {
+        excluded_environments = ["dev"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-41"
+            Octopus.Action.Template.Version = "1"
+            ssn_Channel = "adsf"
+            ssn_Color = "good"
+            ssn_HookUrl = "adsf"
+            ssn_IconUrl = "https://octopus.com/content/resources/favicon.png"
+            ssn_Username = "Octopus Deploy"
+        }
+        worker_pool = "hosted-ubuntu"
     }
 }
