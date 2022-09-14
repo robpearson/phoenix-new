@@ -1,0 +1,68 @@
+variable "AWS account" {
+    type = "AmazonWebServicesAccount"
+
+    value "aws-developer-playground" {
+        environment = ["dev", "test"]
+    }
+
+    value "aws-production-ecs-clusters" {
+        description = ""
+        environment = ["prod"]
+    }
+}
+
+variable "AWS.ECS.Cluster.Name" {
+    value "Phoenix-ECS-#{Octopus.Environment.Name}" {}
+}
+
+variable "AWS.ECS.ExecuteRole.ARN" {
+    value "arn:aws:iam::381713788115:role/ecsTaskExecutionRole" {
+        environment = ["dev", "test"]
+    }
+
+    value "arn:aws:iam::452265822446:role/ecsTaskExecutionRole" {
+        environment = ["prod"]
+    }
+}
+
+variable "AWS.ECS.Service.name" {
+    value "phoenix-#{Octopus.Environment.Name}" {}
+}
+
+variable "AWS.ECS.Task.Name" {
+    value "phoenix-#{Octopus.Environment.Name}" {}
+}
+
+variable "AWS.SecurityGroup.Name" {
+    value "bluedo-security-group-#{Octopus.Environment.Name}" {}
+}
+
+variable "AWS.Task.Database.Name" {
+    value "phoenix-database-#{Octopus.Environment.Name}" {}
+}
+
+variable "AWS.Task.Web.Name" {
+    value "phoenix-web" {}
+}
+
+variable "AWS.VPC.Name" {
+    value "bluedo-prod-vpc" {
+        environment = ["prod"]
+    }
+
+    value "bluedo-test-vpc" {
+        environment = ["dev", "test"]
+    }
+}
+
+variable "Database.ConnectionString" {
+    value "Data Source=localhost;Initial Catalog=; User I" {}
+}
+
+variable "Database.Server.Name" {
+    value "rds-#{Octopus.Environment.Name}-db" {}
+}
+
+variable "Database.User.Name" {
+    value "phoenix-dba-#{Octopus.Environment.Name}" {}
+}
