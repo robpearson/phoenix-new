@@ -59,7 +59,7 @@ step "deploy-website" {
             desiredCount = 1
             maximumHealthPercent = 200
             minimumHealthPercent = 100
-            name = "dasf"
+            name = "dasfadsf"
 
             additionalTags {
                 enableEcsManagedTags = false
