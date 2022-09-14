@@ -66,3 +66,7 @@ variable "Database.Server.Name" {
 variable "Database.User.Name" {
     value "phoenix-dba-#{Octopus.Environment.Name}" {}
 }
+
+variable "Test Account" {
+    value {}
+}
