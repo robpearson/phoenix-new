@@ -11,3 +11,32 @@ step "approve-production-only" {
         worker_pool_variable = ""
     }
 }
+
+step "deploy-a-package" {
+    name = "Deploy a Package"
+    properties = {
+        Octopus.Action.TargetRoles = "web"
+    }
+
+    action {
+        action_type = "Octopus.TentaclePackage"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
+            Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
+            Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "Phoenix"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "Phoenix"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
