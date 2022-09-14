@@ -60,3 +60,22 @@ step "create-an-amazon-s3-bucket" {
         }
     }
 }
+
+step "update-database" {
+    name = "Update database"
+
+    action {
+        action_type = "Octopus.AwsRunScript"
+        properties = {
+            Octopus.Action.Aws.AssumeRole = "False"
+            Octopus.Action.Aws.Region = "asdf"
+            Octopus.Action.AwsAccount.UseInstanceRole = "False"
+            Octopus.Action.AwsAccount.Variable = "#{AWS Account}"
+            Octopus.Action.Script.ScriptBody = "asdfasdf"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool_variable = ""
+    }
+}
