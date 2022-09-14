@@ -32,7 +32,7 @@ step "update-database" {
 }
 
 step "create-an-amazon-s3-bucket" {
-    name = "Create an Amazon S3 Bucket"
+    name = "Update static assets"
     package_requirement = "AfterPackageAcquisition"
 
     action {
@@ -52,7 +52,7 @@ step "create-an-amazon-s3-bucket" {
 }
 
 step "deploy-a-package" {
-    name = "Deploy a Package"
+    name = "Deploy webapp"
     properties = {
         Octopus.Action.TargetRoles = "web"
     }
