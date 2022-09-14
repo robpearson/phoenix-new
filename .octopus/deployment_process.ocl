@@ -40,3 +40,23 @@ step "deploy-a-package" {
         }
     }
 }
+
+step "create-an-amazon-s3-bucket" {
+    name = "Create an Amazon S3 Bucket"
+    package_requirement = "AfterPackageAcquisition"
+
+    action {
+        action_type = "aws-s3-create-bucket"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+        }
+        step_package_version = "1.0.2"
+        worker_pool_variable = ""
+
+        inputs {
+            awsAccount = "amazonwebservicesaccount-dummy-account-spaces-1"
+            bucketName = "asdf"
+            region = "asdf"
+        }
+    }
+}
