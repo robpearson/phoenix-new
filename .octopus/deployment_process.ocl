@@ -17,6 +17,7 @@ step "update-database" {
 
     action {
         action_type = "Octopus.AwsRunScript"
+        is_disabled = true
         properties = {
             Octopus.Action.Aws.AssumeRole = "False"
             Octopus.Action.Aws.Region = "asdf"
@@ -37,6 +38,7 @@ step "create-an-amazon-s3-bucket" {
 
     action {
         action_type = "aws-s3-create-bucket"
+        is_disabled = true
         properties = {
             Octopus.Action.RunOnServer = "true"
         }
@@ -59,6 +61,7 @@ step "deploy-a-package" {
 
     action {
         action_type = "Octopus.TentaclePackage"
+        is_disabled = true
         properties = {
             Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
             Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
@@ -77,5 +80,20 @@ step "deploy-a-package" {
                 SelectionMode = "immediate"
             }
         }
+    }
+}
+
+step "generate-database-script" {
+    name = "Generate Database Script"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "echo \"Generating database script ...\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
     }
 }
