@@ -4,6 +4,7 @@ step "approve-prod-deployment" {
     action {
         action_type = "Octopus.Manual"
         environments = ["prod"]
+        is_disabled = true
         properties = {
             Octopus.Action.Manual.BlockConcurrentDeployments = "False"
             Octopus.Action.Manual.Instructions = "Approve Prod Deployment ... "
@@ -18,6 +19,7 @@ step "update-rds-database" {
 
     action {
         action_type = "Octopus.AwsRunScript"
+        is_disabled = true
         properties = {
             Octopus.Action.Aws.AssumeRole = "False"
             Octopus.Action.Aws.Region = "adsfa"
@@ -42,10 +44,11 @@ step "deploy-website" {
 
     action {
         action_type = "aws-ecs"
+        is_disabled = true
         properties = {
             Octopus.Action.RunOnServer = "true"
         }
-        step_package_version = "1.3.1"
+        step_package_version = "1.3.2"
         worker_pool = "hosted-ubuntu"
 
         packages "phoenix" {
@@ -131,6 +134,7 @@ step "notify-team" {
 
     action {
         excluded_environments = ["dev"]
+        is_disabled = true
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Template.Id = "ActionTemplates-41"
@@ -140,6 +144,21 @@ step "notify-team" {
             ssn_HookUrl = "adsf"
             ssn_IconUrl = "https://octopus.com/content/resources/favicon.png"
             ssn_Username = "Octopus Deploy"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "updated-database" {
+    name = "Updated Database"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "echo \"Updating database ...\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
         }
         worker_pool = "hosted-ubuntu"
     }
