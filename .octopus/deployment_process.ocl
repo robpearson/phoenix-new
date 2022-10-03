@@ -144,18 +144,3 @@ step "notify-team" {
         worker_pool = "hosted-ubuntu"
     }
 }
-
-step "updated-database" {
-    name = "Updated Database"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "echo \"Updating database ...\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-        }
-        worker_pool = "hosted-ubuntu"
-    }
-}
