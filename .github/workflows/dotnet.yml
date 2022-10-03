@@ -28,7 +28,7 @@ jobs:
       with:
         version: latest
     - name: Pack
-      run: octo pack --id="phoenix" --format="zip" --version="1.0.${{github.run_number}}" --basePath="/home/runner/work/phoenix-new/phoenix/" --verbose
+      run: octo pack --id="phoenix" --format="zip" --version="1.0.${{github.run_number}}" --basePath="/home/runner/work/phoenix-new/phoenix-new/" --verbose
     - name: Push Package to Octopus Deploy
       uses: OctopusDeploy/push-package-action@v2.1.0
       with:
