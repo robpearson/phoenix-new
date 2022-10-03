@@ -4,7 +4,6 @@ step "approve-prod-deployment" {
     action {
         action_type = "Octopus.Manual"
         environments = ["prod"]
-        is_disabled = true
         properties = {
             Octopus.Action.Manual.BlockConcurrentDeployments = "False"
             Octopus.Action.Manual.Instructions = "Approve Prod Deployment ... "
@@ -19,7 +18,6 @@ step "update-rds-database" {
 
     action {
         action_type = "Octopus.AwsRunScript"
-        is_disabled = true
         properties = {
             Octopus.Action.Aws.AssumeRole = "False"
             Octopus.Action.Aws.Region = "adsfa"
@@ -44,7 +42,6 @@ step "deploy-website" {
 
     action {
         action_type = "aws-ecs"
-        is_disabled = true
         properties = {
             Octopus.Action.RunOnServer = "true"
         }
@@ -134,7 +131,6 @@ step "notify-team" {
 
     action {
         excluded_environments = ["dev"]
-        is_disabled = true
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Template.Id = "ActionTemplates-41"
