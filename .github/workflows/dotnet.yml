@@ -37,7 +37,7 @@ jobs:
         api_key: ${{ secrets.OCTOPUS_APIKEY }}
         server: ${{ secrets.OCTOPUS_SERVER }}
         timeout: 60
-    - name: Create Release and Deploy to DEV
+    - name: Create Release
       uses: OctopusDeploy/create-release-action@v2.0.1
       with:
         # The name or ID of the project associated with this release.
@@ -47,3 +47,4 @@ jobs:
         release_number: "1.0.${{github.run_number}}"
         # The name or ID of a space within which this command will be executed.
         space: "Ecomm"
+        git_ref: "main"
