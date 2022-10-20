@@ -59,7 +59,7 @@ step "deploy-website" {
             desiredCount = 1
             maximumHealthPercent = 200
             minimumHealthPercent = 100
-            name = "dasf"
+            name = "phoenix"
 
             additionalTags {
                 enableEcsManagedTags = false
@@ -109,8 +109,8 @@ step "deploy-website" {
             task {
                 cpu = 256
                 memory = 512
-                taskExecutionRole = "adsf"
-                taskRole = "asdf"
+                taskExecutionRole = "phoenix.arn"
+                taskRole = "phoenix-role"
 
                 runtimePlatform {
                     cpuArchitecture = "X86_64"
