@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "phoenix-new", "Phoenix\phoenix-new.csproj", "{F5E66246-4ED8-4075-8163-EA8ABAAE2D14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "OrderService\OrderService.csproj", "{0D041A74-FF83-46D6-A5EC-62D7AB9E0E56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{F5E66246-4ED8-4075-8163-EA8ABAAE2D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5E66246-4ED8-4075-8163-EA8ABAAE2D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5E66246-4ED8-4075-8163-EA8ABAAE2D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D041A74-FF83-46D6-A5EC-62D7AB9E0E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D041A74-FF83-46D6-A5EC-62D7AB9E0E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D041A74-FF83-46D6-A5EC-62D7AB9E0E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D041A74-FF83-46D6-A5EC-62D7AB9E0E56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
