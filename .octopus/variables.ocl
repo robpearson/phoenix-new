@@ -15,3 +15,21 @@ variable "Phoenix.Database.User" {
 variable "Phoenix.Database" {
     value "phoenix-#{Octopus.Environment.Name}" {}
 }
+
+variable "Phoenix.Database.ConnectionString" {
+    value "Server=#{OctoFX.Database.Server};Initial Catalog=#{OctoFX.Database.Name};Persist Security Info=False;User ID=#{OctoFX.Database.User};Password=#{OctoFX.Database.UserPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" {}
+}
+
+variable "Phoenix.WebSite.Url" {
+    value "http://phoenix-web-1.westus2.cloudapp.azure.com/" {
+        environment = ["development"]
+    }
+
+    value "http://phoenix-web-2.westus2.cloudapp.azure.com" {
+        environment = ["test"]
+    }
+
+    value "http://phoenix.westus2.cloudapp.azure.com" {
+        environment = ["production"]
+    }
+}
