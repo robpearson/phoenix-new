@@ -27,6 +27,35 @@ step "update-database" {
     }
 }
 
+step "deploy-order-service" {
+    name = "Deploy order service"
+    properties = {
+        Octopus.Action.TargetRoles = "octofx-web"
+    }
+
+    action {
+        action_type = "Octopus.TentaclePackage"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
+            Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
+            Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "Phoenix.OrderService"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "Phoenix.OrderService"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
 step "deploy-webapp" {
     name = "Deploy webapp"
     properties = {
@@ -41,14 +70,15 @@ step "deploy-webapp" {
             Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
-            Octopus.Action.Package.PackageId = "RandomQuotes"
+            Octopus.Action.Package.PackageId = "Phoenix.web"
+            Octopus.Action.RunOnServer = "false"
         }
         worker_pool_variable = ""
 
         packages {
             acquisition_location = "Server"
             feed = "octopus-server-built-in"
-            package_id = "RandomQuotes"
+            package_id = "Phoenix.web"
             properties = {
                 SelectionMode = "immediate"
             }
@@ -66,6 +96,7 @@ step "notify-team" {
             Octopus.Action.Email.Body = "TODO: Add feature summary."
             Octopus.Action.Email.Subject = "Phoenix deployed to production"
             Octopus.Action.Email.To = "rob.pearson@octopus.com"
+            Octopus.Action.RunOnServer = "false"
         }
     }
 }
