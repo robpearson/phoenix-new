@@ -1,0 +1,17 @@
+variable "Phoenix.Database.User" {
+    value "dev-admin" {
+        environment = ["development"]
+    }
+
+    value "test-admin" {
+        environment = ["test"]
+    }
+
+    value "phoenix-prod-admin" {
+        environment = ["production"]
+    }
+}
+
+variable "Phoenix.Database" {
+    value "phoenix-#{Octopus.Environment.Name}" {}
+}
