@@ -26,3 +26,46 @@ step "update-database" {
         worker_pool = "hosted-windows"
     }
 }
+
+step "deploy-webapp" {
+    name = "Deploy webapp"
+    properties = {
+        Octopus.Action.TargetRoles = "octofx-web"
+    }
+
+    action {
+        action_type = "Octopus.TentaclePackage"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
+            Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
+            Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "RandomQuotes"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "RandomQuotes"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "notify-team" {
+    name = "Notify team"
+
+    action {
+        action_type = "Octopus.Email"
+        environments = ["production"]
+        properties = {
+            Octopus.Action.Email.Body = "TODO: Add feature summary."
+            Octopus.Action.Email.Subject = "Phoenix deployed to production"
+            Octopus.Action.Email.To = "rob.pearson@octopus.com"
+        }
+    }
+}
