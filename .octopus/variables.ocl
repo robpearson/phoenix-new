@@ -33,3 +33,15 @@ variable "Phoenix.WebSite.Url" {
         environment = ["production"]
     }
 }
+
+variable "OrderService.Database.User" {
+    value "orderdb-#{Octopus.Environment.Name}-dbo" {}
+}
+
+variable "OrderService.Database.ConnectionString" {
+    value "Server=#{Order.Database.Server};Initial Catalog=#{Order.Database.Name};Persist Security Info=False;User ID=#{OctoFX.Database.User};Password=#{OctoFX.Database.UserPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" {}
+}
+
+variable "OrderService.Database" {
+    value "orderdb-#{Octopus.Environment.Name}" {}
+}
