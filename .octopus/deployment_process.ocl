@@ -3,6 +3,7 @@ step "approve-deployment" {
 
     action {
         action_type = "Octopus.Manual"
+        environments = ["production"]
         properties = {
             Octopus.Action.Manual.BlockConcurrentDeployments = "False"
             Octopus.Action.Manual.Instructions = "Please approve this production deployment."
