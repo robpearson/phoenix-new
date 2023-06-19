@@ -50,3 +50,12 @@ jobs:
         space: 'Octopus Training'
         project: 'Phoenix'
         release_number: 1.0.${{github.run_number}}
+    - name: Deploy Octopus Release
+      uses: OctopusDeploy/deploy-release-action@v3.0.4
+      with:
+        api_key: ${{ secrets.OCTOPUS_APIKEY }}
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        space: 'Octopus Training'
+        project: 'Phoenix'
+        release_number: 1.0.${{github.run_number}}
+        environments: 'Development'
