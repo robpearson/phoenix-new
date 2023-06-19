@@ -49,3 +49,4 @@ jobs:
         server: ${{ secrets.OCTOPUS_SERVER }}
         space: 'Octopus Training'
         project: 'Phoenix'
+        release_number: 1.0.${{github.run_number}}
