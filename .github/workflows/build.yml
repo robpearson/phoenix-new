@@ -35,3 +35,8 @@ jobs:
         base_path: '/home/runner/work/phoenix-new/phoenix-new/'
         files: |
           **/*.*
+    - name: Push Package to Octopus Deploy
+      uses: OctopusDeploy/push-package-action@v3.0.4
+      with:
+        packages: './packaging/Phoenix.1.0.${{github.run_number}}.zip'
+        space: 'Octopus Training'
