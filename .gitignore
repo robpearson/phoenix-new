@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+Phoenix/bin/Debug/net6.0/phoenix-new.dll
+Phoenix/bin/Debug/net6.0/phoenix-new.pdb
+Phoenix/obj/Debug/net6.0/phoenix-new.dll
+Phoenix/obj/Debug/net6.0/phoenix-new.pdb
+Phoenix/obj/staticwebassets.pack.sentinel
