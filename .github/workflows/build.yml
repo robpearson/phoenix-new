@@ -39,4 +39,6 @@ jobs:
       uses: OctopusDeploy/push-package-action@v3.0.4
       with:
         packages: './packaging/Phoenix.1.0.${{github.run_number}}.zip'
+        api_key: ${{ secrets.OCTOPUS_APIKEY }}
+        server: ${{ secrets.OCTOPUS_SERVER }}
         space: 'Octopus Training'
