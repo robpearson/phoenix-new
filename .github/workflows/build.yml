@@ -26,3 +26,13 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Create Zip Package for Octopus Deploy
+      uses: OctopusDeploy/create-zip-package-action@v3.0.2
+      with:
+        package_id: 'Phoenix'
+        version: '$PACKAGE_VERSION'
+        output_folder: './packaging'
+        base_path: '/home/runner/work/phoenix-new/phoenix-new/'
+        files: |
+          **/*.*
+  
