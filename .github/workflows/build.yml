@@ -42,3 +42,9 @@ jobs:
         api_key: ${{ secrets.OCTOPUS_APIKEY }}
         server: ${{ secrets.OCTOPUS_SERVER }}
         space: 'Octopus Training'
+    - name: Create Octopus release
+      uses: OctopusDeploy/create-release-action@v3
+      with:
+        api_key: ${{ secrets.OCTOPUS_APIKEY }}
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        project: 'Phoenix'
